@@ -19,6 +19,6 @@ public class Recursion{
 }
 class Driver{
     public static void main(String[]args){
-	System.out.println(Recursion.sqrt(Integer.parseInt(args[0])));
+	System.out.println(Recursion.sqrt(Double.parseDouble(args[0])));
     }
 }
