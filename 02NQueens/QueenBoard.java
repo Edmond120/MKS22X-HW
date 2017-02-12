@@ -2,18 +2,17 @@ public class QueenBoard{
 
     private int[][]board;
 
-    private int solutionCount;
+    private int solutionCount = 0;
 
-    private int[] queenDiagonals;
+    private boolean once;
 
-    
+    private boolean solved = false;
 
+    private boolean temp;
+
+    private int[] queens1;
     public QueenBoard(int size){
 	board = new int[size][size];
-        queenDiagonals = new int[size];
-	for(int i = 0; i < size; i++){
-	    queenDiagonals[i] = -1;
-	}
     }
 
     /**
@@ -26,37 +25,91 @@ public class QueenBoard{
      *all n queens. Uses solveH
      */
     public void solve(){
-	return solveH(0,0);
+	int[] queens = new int[board.length * 2];
+	for(int i = 0; i < board.length * 2; i++){
+	    queens[i] = -1;
+	}
+	once = true;
+	solveH(queens,0,0,0);
     }
-
-    private boolean solveH(int col,int row){
-	return false;
+    private int[] addQueen(int[]queens,int queenNum,int col,int row){
+	if(check(queens,queenNum,col,row)){
+	    queens[queenNum * 2] = col;
+	    queens[(queenNum * 2) + 1] = row;
+	    temp = true;
+	}
+	else{
+	    temp = false;
+	}
+	return queens;
     }
-    private boolean addQueen
+    private boolean check(int[] queens,int queenNum,int col,int row){
+	for(int i = 0; i < queenNum - 1; i++){
+	    if(queens[i * 2] == col || queens[(i * 2) + 1] == row || queens[i * 2] - queens[(i * 2) + 1] == col - row){
+		return false;
+	    }
+	}
+	return true;
+    }
     
-    /**
-     *@return the number of solutions found, or -1 if the board was never solved.
-
-     *The board should be reset after this is run.    
-
-     */
-
-    public int getSolutionCount(){
-    	return -1;
+    private void solveH(int[] queens,int queenNum,int col,int row){
+	if(solved = true){
+	    return;
+	}
+	if(queenNum == board.length){
+	    if(once){
+		solved = true;
+		queens1 = queens;
+		return;
+	    }
+	    else{
+		solutionCount++;
+		queens1 = queens;
+	    }
+	}
+	if(row == board.length){
+	    return;
+	}
+	queens = addQueen(queens,queenNum,col,row);
+	if(col < board.length){
+	    col++;
+	}
+	else{
+	    col = 0;
+	    row++;
+	}
+	if(temp = true){
+	    solveH(queens,queenNum + 1,col,row);
+	}
+	solveH(queens,queenNum,col,row);
+	
     }
     public void countSolutions(){
+	once = false;
+	int[] queens = new int[board.length * 2];
+	for(int i = 0; i < board.length * 2; i++){
+	    queens[i] = -1;
+	}
+	solveH(queens,0,0,0);
     }
-    
+    public int getSolutionCount(){
+    	return solutionCount;
+    }
     /**toString
      *and all nunbers that represent queens are replaced with 'Q' 
      *all others are displayed as underscores '_'
      */
     public String toString(){
 	String result = "";
-	for(int c = 0;c < board.size();c++){
-	    for(int r = 0;r < board.size();r++){
+	for(int i = 0;i < queens1.length; i += 2){
+	    if(queens1[i] != -1){
+		board[queens1[i]][queens1[i] + 1] = 2;
+	    }
+	}
+	for(int c = 0;c < board.length;c++){
+	    for(int r = 0;r < board.length;r++){
 		if(board[c][r] < 2){
-		    result += '- ';
+		    result += "- ";
 		}
 		else{
 		    board[c][r] += 'Q';
@@ -64,6 +117,7 @@ public class QueenBoard{
 	    }
 	    result += '\n';
 	}
-    	return "";
+	board = new int[board.length][board.length];
+    	return result;
     }
 }
