@@ -4,7 +4,7 @@ public class QueenBoard{
 
     private int solutionCount = 0;
 
-    private boolean once;
+    private boolean once = false;
 
     private boolean solved = false;
 
@@ -34,6 +34,7 @@ public class QueenBoard{
     }
     private int[] addQueen(int[]queens,int queenNum,int col,int row){
 	if(check(queens,queenNum,col,row)){
+	    queenNum = queenNum - 1;
 	    queens[queenNum * 2] = col;
 	    queens[(queenNum * 2) + 1] = row;
 	    temp = true;
@@ -53,7 +54,7 @@ public class QueenBoard{
     }
     
     private void solveH(int[] queens,int queenNum,int col,int row){
-	if(solved = true){
+	if(solved == true){
 	    return;
 	}
 	if(queenNum == board.length){
@@ -65,12 +66,13 @@ public class QueenBoard{
 	    else{
 		solutionCount++;
 		queens1 = queens;
+		return;
 	    }
 	}
 	if(row == board.length){
 	    return;
 	}
-	queens = addQueen(queens,queenNum,col,row);
+	queens = addQueen(queens,queenNum + 1,col,row);
 	if(col < board.length){
 	    col++;
 	}
@@ -103,7 +105,10 @@ public class QueenBoard{
 	String result = "";
 	for(int i = 0;i < queens1.length; i += 2){
 	    if(queens1[i] != -1){
-		board[queens1[i]][queens1[i] + 1] = 2;
+		for(int a = 0; a < queens1.length; a++){
+		    System.out.println(queens1[a]);
+		}
+		board[queens1[i]][queens1[i + 1]] = 2;
 	    }
 	}
 	for(int c = 0;c < board.length;c++){
