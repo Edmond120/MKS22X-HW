@@ -7,6 +7,7 @@ public class Driver{
 	System.out.println("SolutionCount: " + x.getSolutionCount());
 	System.out.println("runTime: " + ((System.currentTimeMillis() - time) / 1000));
 	System.out.println("Solve: ");
+	x = new QueenBoard(size);
 	time = System.currentTimeMillis();
 	x.solve();
 	System.out.println(x.toString());
@@ -14,7 +15,7 @@ public class Driver{
     }
     private static long time;
     public static void main(String[] args){
-	for(int i = 1; i < 11; i++){
+	for(int i = 4; i < 11; i++){
 	    test(i);
 	}
     }

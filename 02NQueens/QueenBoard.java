@@ -10,6 +10,8 @@ public class QueenBoard{
     private boolean once = false;
     private boolean done = false;
     private int size;
+    private int[]backup;
+    private boolean first = true;
     public int getSolutionCount(){
 	return solutionCount;
     }
@@ -19,6 +21,7 @@ public class QueenBoard{
 	sMO = size - 1;
 	board = new boolean[size][size];
 	queens = new int[size];
+	backup = new int[size];
 	dLMO = size * 4 - 3;
 	for(int i = 0; i < size; i++){
 	    queens[i] = i;
@@ -35,6 +38,9 @@ public class QueenBoard{
 	    return "boards with sizes 2x2 or 3x3 can't be solved";
 	}
 	else{
+	    if(size == 4 || size == 6){
+		makeBoard(backup);
+	    }
 	    String result = "";
 	    for(int c = 0; c < board.length; c++){
 		for(int r = 0; r < board.length; r++){
@@ -78,14 +84,14 @@ public class QueenBoard{
 	    solutionCount = 0;
 	}
 	else{
-	    pos = queens.length - 3;
+	    pos = queens.length - 2;
 	    solutionCount = 0;
 	    while(pos >= 0){
 		int[]temp = new int[queens.length];
 		copyToTemp(0,queens,temp);
 		countSolutionsH(pos,temp);
-		if(once && done){
-		    break;
+		if(done){
+		    return;
 		}
 		pos--;
 	    }
@@ -94,6 +100,9 @@ public class QueenBoard{
     private void countSolutionsH(int tempPos, int[]temp){
 	if(tempPos == queens.length - 2){
 	    check(temp,0);
+	    if(done){
+		return;
+	    }
 	    swap(temp,tempPos,tempPos + 1);
 	    if(!once){
 		check(temp,0);
@@ -112,16 +121,33 @@ public class QueenBoard{
     private void check(int[]temp,int start){
 	diagonals = new boolean[size * 4 - 2];
 	if(updateDiagonals(temp,start)){
+	    if((size == 4 || size == 6) && first){
+		backup = new int[queens.length];
+		copyToTemp(0,temp,backup);
+		first = false;
+		return;
+	    }
 	    if(once){
 		makeBoard(temp);
 		done = true;
+		return;
 	    }
 	    else{
-		solutionCount++;
+		if(half && temp[0] == 0){
+		    solutionCount++;
+		    half = false;
+		}
+		else if(temp[0] == 0){
+		    half = true;
+		}
+		else{
+		    solutionCount++;
+		}
 	    }
 	}
 	return;
     }
+    private boolean half = false;
     private void swap(int[]temp,int x,int y){
 	swapT = temp[x];
 	temp[x] = temp[y];
