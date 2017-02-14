@@ -122,6 +122,11 @@ public class QueenBoard{
 	diagonals = new boolean[size * 4 - 2];
 	if(updateDiagonals(temp,start)){
 	    if((size == 4 || size == 6) && first){
+		System.out.println("Solution to 4 or 6, toString won't work for those for some unknown reason: ");
+		for(int a = 0; a < temp.length;a++){
+		    System.out.print(temp[a] + " ");
+		}
+		System.out.print('\n');
 		backup = new int[queens.length];
 		copyToTemp(0,temp,backup);
 		first = false;
