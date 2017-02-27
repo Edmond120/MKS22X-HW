@@ -1,14 +1,10 @@
 public class driver{
     private static boolean show = false;
     public static void main(String[] args){
-	if(args.length > 0){
-	    if(args[0] == "show"){
-		show = true;
-	    }
-	}
-	//KnightBoard.show = true;
-	if(show){
-	    
+	for(int a = 5; a < 20; a++){
+	    KnightBoard x = new KnightBoard(a,a);
+	    x.solve();
+	    System.out.println(x.toString());
 	}
     }
 }
