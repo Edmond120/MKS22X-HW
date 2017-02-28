@@ -20,12 +20,26 @@ public class Maze{
       3. When the file is not found OR there is no E or S then: print an error and exit the program.
 
     */
-
+    private int indexOf(int[]key,int num){
+	for(int i = 0; i < key.length; i++){
+	    if(num == key[i]){
+		return i;
+	    }
+	}
+	return 0;
+    }
+    private int[]key = {-2,-1,0};
+    private String[]lock = {"E","#"," "};
     public String toString(){
 	String result = "";
 	for(int line = 0; line < maze.length; line++){
 	    for(int i = 0; i < maze[line].length; i++){
-		result += maze[line][i] + " ";
+		if(maze[line][i] > 0){
+		    result += maze[line][i] + " ";
+		}
+		else{
+		    result += lock[indexOf(key,(maze[line][i]))] + " ";
+		}
 	    }
 	    result += "\n";
 	}
@@ -105,13 +119,68 @@ public class Maze{
     /*Wrapper Solve Function
       Since the constructor exits when the file is not found or is missing an E or S, we can assume it exists.
     */
+    private int[] dirX = {0,0,1,-1};
+    private int[] dirY = {1,-1,0,0};
     public boolean solve(){
-            int startr=-1,startc=-1;
-
-            //Initialize starting row and startint col with the location of the S. 
-
-            maze[startr][startc] = ' ';//erase the S, and start solving!
-            return solve(startr,startc);
+	int temp;
+	int step = 2;
+	ArrayList<cord> branches = new ArrayList<cord>();
+	for(int line = 0; line < maze.length; line++){
+	    for(int i = 0; i < maze[line].length; i++){
+		if(maze[line][i] == 1){
+		    branches.add(new cord(line,i));
+		}
+	    }
+	}	    
+	while(true){
+	    if(animate){
+		System.out.println("\033[2J\033[1;1H"+this.toString());
+		wait(20);
+	    }
+	    int s = branches.size();
+	    if(s == 0){
+		break;
+	    }
+	    for(int i = 0; i < s;i++){
+		cord c = branches.get(0);
+		for(int ii = 0; ii < 4; ii++){
+		    int x = c.x + dirX[ii];
+		    int y = c.y + dirY[ii];
+		    if(x < maze.length && y < maze[x].length && (maze[x][y] == 0 || maze[x][y] == -2)){
+			if(maze[x][y] == 0){
+			    branches.add(new cord(x,y));
+			    maze[x][y] = step;
+			}
+			else{
+			    phase2(x,y,step);
+			    return true;
+			}
+		    }
+		}
+		branches.remove(0);
+	    }
+	    step++;
+	    
+	}
+	return false;
+    }
+    private void phase2(int x, int y,int step){
+	while(step > 0){
+	if(animate){
+		System.out.println("\033[2J\033[1;1H"+this.toString());
+		wait(20);
+	}
+	step--;
+	for(int i = 0; i < 4; i++){
+	    int xx = x + dirX[i];
+	    int yy = y + dirY[i];
+	    if(xx < maze.length && yy < maze[xx].length && (maze[xx][yy] == step)){
+		maze[xx][yy] = -4;
+		x = xx;
+		y = yy;
+	    }
+	}
+	}
     }
 
     /*
@@ -137,16 +206,13 @@ public class Maze{
 	catch (InterruptedException e) {
          }
     }
-    private boolean solve(int row, int col){
-        if(animate){
-            System.out.println("\033[2J\033[1;1H"+this.toString());
-            wait(20);
-        }
 
-        //COMPLETE SOLVE
-
-        return false; //so it compiles
+}
+class cord{
+    int x;
+    int y;
+    public cord(int x,int y){
+	this.x = x;
+	this.y = y;
     }
-
-
 }
