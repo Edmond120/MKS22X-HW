@@ -6,6 +6,7 @@ public class Maze{
 
     private int[][]maze;
     private boolean animate;
+    private boolean validFile;
 
     /*Constructor loads a maze text file, and sets animate to false by default.
       1. The file contains a rectangular ascii maze, made with the following 4 characters:
@@ -20,10 +21,26 @@ public class Maze{
 
     */
 
-    public Maze(String filename){
-        readFile(filename);
+    public String toString(){
+	String result = "";
+	for(int line = 0; line < maze.length; line++){
+	    for(int i = 0; i < maze[line].length; i++){
+		result += maze[line][i] + ' ';
+	    }
+	    result += '\n';
+	}
+	return result;
     }
-    public static void readFile(String filename) throws FileNotFoundException {
+    public Maze(String filename){
+	try{
+	    validFile = readFile(filename);
+	}
+	catch(FileNotFoundException e){
+	    System.out.println("file not found");
+	    e.printStackTrace();
+	}
+    }
+    public boolean readFile(String filename) throws FileNotFoundException {
         //instead of a try/catch, you can throw the FileNotFoundException.
         File infile = new File(filename);// can be a path"/full/path/to/file.txt" 
         Scanner inf = new Scanner(infile);
@@ -33,16 +50,16 @@ public class Maze{
 	    newLines++;
 	    inf.nextLine();
 	}
-	inf.reset();
-	if(inf.hasNextLine()){
-	    String line = inf.nextLine();
-	}
-	else{
+	if(newLines == 0){
 	    System.out.println("filecorrupt");
 	    return false;
 	}
-	maze = new int[line.length][newLines];
-	inf.reset();
+        inf.close();
+	inf = new Scanner(infile);
+	String line = inf.nextLine();
+	maze = new int[line.length()][newLines];
+	inf.close();
+	inf = new Scanner(infile);
 	
         while(inf.hasNextLine()){
 	    line = inf.nextLine();
@@ -65,6 +82,7 @@ public class Maze{
 	    }
 	    lineNumber++;
 	}
+	return true;
     }   
 
     public void setAnimate(boolean b){
@@ -112,10 +130,16 @@ public class Maze{
         All visited spots that were not part of the solution are changed to '.'
         All visited spots that are part of the solution are changed to '@'
     */
+    private void wait(int millis){ //ADDED SORRY!
+	try {
+	    Thread.sleep(millis);
+	}
+	catch (InterruptedException e) {
+         }
+    }
     private boolean solve(int row, int col){
         if(animate){
-            System.out.println("\033[2J\033[1;1H"+this);
-
+            System.out.println("\033[2J\033[1;1H"+this.toString());
             wait(20);
         }
 
