@@ -25,9 +25,9 @@ public class Maze{
 	String result = "";
 	for(int line = 0; line < maze.length; line++){
 	    for(int i = 0; i < maze[line].length; i++){
-		result += maze[line][i] + ' ';
+		result += maze[line][i] + " ";
 	    }
-	    result += '\n';
+	    result += "\n";
 	}
 	return result;
     }
