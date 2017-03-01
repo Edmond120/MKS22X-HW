@@ -30,6 +30,7 @@ public class Maze{
     }
     private int[]key = {-2,-1,0};
     private String[]lock = {"E","#"," "};
+    private boolean part2 = false;
     public String toString(){
 	String result = "";
 	for(int line = 0; line < maze.length; line++){
@@ -38,7 +39,12 @@ public class Maze{
 		    result += maze[line][i] + " ";
 		}
 		else{
-		    result += lock[indexOf(key,(maze[line][i]))] + " ";
+		    if(part2 && maze[line][i] == -4){
+			result += "P ";
+		    }
+		    else{
+			result += lock[indexOf(key,(maze[line][i]))] + " ";
+		    }
 		}
 	    }
 	    result += "\n";
@@ -152,6 +158,7 @@ public class Maze{
 			    maze[x][y] = step;
 			}
 			else{
+			    part2 = true;
 			    phase2(x,y,step);
 			    return true;
 			}
@@ -166,20 +173,20 @@ public class Maze{
     }
     private void phase2(int x, int y,int step){
 	while(step > 0){
-	if(animate){
+	    if(animate){
 		System.out.println("\033[2J\033[1;1H"+this.toString());
 		wait(20);
-	}
-	step--;
-	for(int i = 0; i < 4; i++){
-	    int xx = x + dirX[i];
-	    int yy = y + dirY[i];
-	    if(xx < maze.length && yy < maze[xx].length && (maze[xx][yy] == step)){
-		maze[xx][yy] = -4;
-		x = xx;
-		y = yy;
 	    }
-	}
+	    step--;
+	    for(int i = 0; i < 4; i++){
+		int xx = x + dirX[i];
+		int yy = y + dirY[i];
+		if(xx < maze.length && yy < maze[xx].length && (maze[xx][yy] == step)){
+		    maze[xx][yy] = -4;
+		    x = xx;
+		    y = yy;
+		}
+	    }
 	}
     }
 
