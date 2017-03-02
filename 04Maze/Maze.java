@@ -105,6 +105,10 @@ public class Maze{
 	    System.out.println("file not found");
 	    e.printStackTrace();
 	}
+	catch(Throwable e){
+	    System.out.println("filecorrupt");
+	    e.printStackTrace();
+	}
     }
     public boolean readFile(String filename) throws FileNotFoundException {
         //instead of a try/catch, you can throw the FileNotFoundException.
@@ -126,7 +130,8 @@ public class Maze{
 	maze = new int[newLines][line.length()];
 	inf.close();
 	inf = new Scanner(infile);
-	
+	int starts = 0;
+	int ends = 0;
         while(inf.hasNextLine()){
 	    line = inf.nextLine();
             for(int i = 0; i < line.length(); i++){
@@ -136,9 +141,11 @@ public class Maze{
 		else if(line.charAt(i) == ' '){
 		}
 		else if(line.charAt(i) == 'E'){
+		    ends++;
 		    maze[lineNumber][i] = -2;
 		}
 		else if(line.charAt(i) == 'S'){
+		    starts++;
 		    maze[lineNumber][i] = 1;
 		}
 		else{
@@ -147,6 +154,10 @@ public class Maze{
 		}
 	    }
 	    lineNumber++;
+	}
+	if(starts != 1 || ends == 0){
+	    System.out.println("invalid amount of starting points or no end points, but I won't tell you which");
+	    return false;
 	}
 	return true;
     }   
