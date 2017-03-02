@@ -104,10 +104,12 @@ public class Maze{
 	catch(FileNotFoundException e){
 	    System.out.println("file not found");
 	    e.printStackTrace();
+	    validFile = false;
 	}
 	catch(Throwable e){
 	    System.out.println("filecorrupt");
 	    e.printStackTrace();
+	    validFile = false;
 	}
     }
     public boolean readFile(String filename) throws FileNotFoundException {
