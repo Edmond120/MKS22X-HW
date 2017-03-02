@@ -31,7 +31,53 @@ public class Maze{
     private int[]key = {-2,-1,0};
     private String[]lock = {"E","#"," "};
     private boolean part2 = false;
+    public String toStringA(){
+	String result = "";
+	for(int line = 0; line < maze.length; line++){
+	    for(int i = 0; i < maze[line].length; i++){
+		if(maze[line][i] == 1){
+		    result += "S ";
+		}
+		else if(maze[line][i] > 0){
+		    result += "B ";
+		}
+		else{
+		    if(part2 && maze[line][i] == -4){
+			result += "█ ";
+		    }
+		    else{
+			result += lock[indexOf(key,(maze[line][i]))] + " ";
+		    }
+		}
+	    }
+	    result += "\n";
+	}
+	return result;
+    }
     public String toString(){
+	String result = "";
+	for(int line = 0; line < maze.length; line++){
+	    for(int i = 0; i < maze[line].length; i++){
+		if(maze[line][i] == 1){
+		    result += "S ";
+		}
+		else if(maze[line][i] > 0){
+		    result += "  ";
+		}
+		else{
+		    if(part2 && maze[line][i] == -4){
+			result += "█ ";
+		    }
+		    else{
+			result += lock[indexOf(key,(maze[line][i]))] + " ";
+		    }
+		}
+	    }
+	    result += "\n";
+	}
+	return result;
+    }
+    public String toStringNumbered(){
 	String result = "";
 	for(int line = 0; line < maze.length; line++){
 	    for(int i = 0; i < maze[line].length; i++){
@@ -77,7 +123,7 @@ public class Maze{
         inf.close();
 	inf = new Scanner(infile);
 	String line = inf.nextLine();
-	maze = new int[line.length()][newLines];
+	maze = new int[newLines][line.length()];
 	inf.close();
 	inf = new Scanner(infile);
 	
@@ -128,6 +174,10 @@ public class Maze{
     private int[] dirX = {0,0,1,-1};
     private int[] dirY = {1,-1,0,0};
     public boolean solve(){
+	if(!validFile){
+	    System.out.println("filecorrupt");
+	    return false;
+	}
 	int temp;
 	int step = 2;
 	ArrayList<cord> branches = new ArrayList<cord>();
@@ -140,7 +190,7 @@ public class Maze{
 	}	    
 	while(true){
 	    if(animate){
-		System.out.println("\033[2J\033[1;1H"+this.toString());
+		System.out.println("\033[2J\033[1;1H"+this.toStringA());
 		wait(20);
 	    }
 	    int s = branches.size();
@@ -160,6 +210,10 @@ public class Maze{
 			else{
 			    part2 = true;
 			    phase2(x,y,step);
+			    if(animate){
+				System.out.println("\033[2J\033[1;1H"+this.toString());
+				wait(20);
+			    }
 			    return true;
 			}
 		    }
@@ -172,9 +226,9 @@ public class Maze{
 	return false;
     }
     private void phase2(int x, int y,int step){
-	while(step > 0){
+	while(step > 1){
 	    if(animate){
-		System.out.println("\033[2J\033[1;1H"+this.toString());
+		System.out.println("\033[2J\033[1;1H"+this.toStringA());
 		wait(20);
 	    }
 	    step--;
