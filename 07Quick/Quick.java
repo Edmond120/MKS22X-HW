@@ -103,20 +103,20 @@ public class Quick{
 	}
 	return data[i];
     }
-    public static int[] quickSort(int[]ary){
+    public static void quicksort(int[]ary){
 	int p = part(ary,0,ary.length - 1);
-	quickSortH(ary,0,p);
-	quickSortH(ary,p,ary.length - 1);
-	return ary;
+	quicksortH(ary,0,p);
+	quicksortH(ary,p,ary.length - 1);
+	return;
     }
-    private static void quickSortH(int[]ary,int start,int end){
+    private static void quicksortH(int[]ary,int start,int end){
 	if(end - start <= 1){
 	    return;
 	}
 	else{
 	    int p = part(ary,start,end);
-	    quickSortH(ary,start,p);
-	    quickSortH(ary,p,end);
+	    quicksortH(ary,start,p);
+	    quicksortH(ary,p,end);
 	}
     }
   //return the value that is the kth smallest value of the array. 
@@ -132,11 +132,17 @@ public class Quick{
 	    System.out.print(x[i] + " ");
 	}
 	System.out.print("\n");
-	quickSort(x);
-	System.out.println("sorted");
-	for(int i = 0; i < x.length; i++){
-	    System.out.print(x[i] + " ");
+	if(ary.length == 1){
+	    quicksort(x);
+	    System.out.println("sorted");
+	    for(int i = 0; i < x.length; i++){
+		System.out.print(x[i] + " ");
+	    }
+	    System.out.print("\n");
 	}
-	System.out.print("\n");
+	else{
+	    System.out.println("quickselect");
+	    System.out.println(quickselect(x,Integer.parseInt(ary[1])));
+	}
     }
 }
