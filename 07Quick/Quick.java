@@ -9,7 +9,7 @@ public class Quick{
 	int r = new Random().nextInt(end - start + 1) + start;
 	int v = ary[r];
 	int i = start;
-	int oend = end;
+	int oStart = start;
 	while(i <= end){
 	    if(ary[i] == v){
 		i++;
@@ -21,12 +21,14 @@ public class Quick{
 		swap(ary,i,end--);
 	    }
 	}
-	if(oend == i - 1){
-	    return i - 2;
+	if(end > oStart && ary[end] == ary[end - 1]){
+	    int a = end - 1;
+	    while(a != oStart && ary[a] == ary[end]){a -= 1;}
+	    return ((end - a)/2) + a;
 	}
-	else{
-	    return i = i - 1;
-	}
+	    
+	return end;
+
 	/*
 	int dc = 0;
 	//int ii = i;
@@ -152,14 +154,18 @@ public class Quick{
 	else{
 	    int p = part(ary,start,end);
 	    //System.out.println(start + ":" + p + ":" + end);
-	    quicksortH(ary,start,p);
+	    if(p != end){
+		quicksortH(ary,start,p);
+	    }
+	    if(p != start){
 	    quicksortH(ary,p,end);
+	    }
 	}
     }
   //return the value that is the kth smallest value of the array. 
   //use your partition method to help you accomplish this.
     public static void main(String[]ary){
-	//try{
+	try{
 	Timer timer = new Timer();
 	int[] x = new int[1];
 	if(ary.length == 0){
@@ -235,7 +241,7 @@ public class Quick{
 	    System.out.println("quickselect");
 	    System.out.println(quickselect(x,Integer.parseInt(ary[1])));
 	}
-	//}catch(Throwable e){}
+	}catch(Throwable e){}
     }
 }
 class Timer{
