@@ -9,7 +9,8 @@ public class Quick{
 	int r = new Random().nextInt(end - start + 1) + start;
 	int v = ary[r];
 	int i = start;
-	while(i != end){
+	int oend = end;
+	while(i <= end){
 	    if(ary[i] == v){
 		i++;
 	    }
@@ -20,7 +21,25 @@ public class Quick{
 		swap(ary,i,end--);
 	    }
 	}
-	return i;
+	if(oend == i - 1){
+	    return i - 2;
+	}
+	else{
+	    return i = i - 1;
+	}
+	/*
+	int dc = 0;
+	//int ii = i;
+	if(i > 0 && ary[i] == v){
+	    while(i-- > 0 && ary[i] == v){
+		dc++;
+	    }
+	    return i + 1 + (dc / 2);
+	}
+	else{
+	    return i;
+	}
+	*/
     }
     private static int partOld ( int [] data, int start, int end){
 	int r = new Random().nextInt(end - start + 1) + start;
@@ -109,12 +128,30 @@ public class Quick{
 	quicksortH(ary,p,ary.length - 1);
 	return;
     }
+    public static boolean check(int[]ary){
+	for(int i = 1; i < ary.length; i++){
+	    if(ary[i - 1] > ary[i]){
+		return false;
+	    }
+	}
+	return true;
+    }
     private static void quicksortH(int[]ary,int start,int end){
-	if(end - start <= 1){
+	if(end - start <= 2){
+	    if(end - start == 2){
+		if(ary[start] > ary[start + 1]){
+		    swap(ary,start,start + 1);
+		}
+		if(ary[start + 1] > ary[end]){
+		    swap(ary,start + 1,end);
+		}
+	    }
+	    //System.out.println("return");
 	    return;
 	}
 	else{
 	    int p = part(ary,start,end);
+	    //System.out.println(start + ":" + p + ":" + end);
 	    quicksortH(ary,start,p);
 	    quicksortH(ary,p,end);
 	}
@@ -122,27 +159,93 @@ public class Quick{
   //return the value that is the kth smallest value of the array. 
   //use your partition method to help you accomplish this.
     public static void main(String[]ary){
+	//try{
+	Timer timer = new Timer();
+	int[] x = new int[1];
+	if(ary.length == 0){
+	    System.out.println("quick(array length) || quick(array length, k for quickselect) || quick -d array length (duplicates)");
+	    return;
+	}
+	if(ary[0].equals("-d")){
+	    int nn = Integer.parseInt(ary[1]);
+	    int[]xx = new int[nn];
+	    Random rr = new Random();
+	    int d = rr.nextInt(100);
+	    for(int a = 0; a < xx.length; a++){
+		if(rr.nextInt(101) < 50){
+		    xx[a] = d;
+		}
+		else{
+		    xx[a] = rr.nextInt(100);
+		}
+	    }
+	    /*
+	    for(int i = 0; i < xx.length;i++){
+		System.out.print(xx[i] + " ");
+	    }
+	    */
+	    //System.out.print("\n");
+	    if(ary.length == 2){
+		timer.start();
+		quicksort(xx);
+		/*
+		System.out.println("sorted");
+		for(int i = 0; i < xx.length;i++){
+		System.out.print(xx[i] + " ");
+		}
+		*/
+		System.out.println("runTime: " + timer.stop());
+		System.out.println(check(xx));
+	    }
+	    else{
+		System.out.println("quickselect");
+		System.out.print(quickselect(xx,Integer.parseInt(ary[2])));
+		System.out.print("\n");
+	    }
+	    //System.out.print("\n");
+	    return;
+	}
 	int n = Integer.parseInt(ary[0]);
-	int[]x = new int[n];
+	x = new int[n];
 	Random r = new Random();
 	for(int a = 0; a < x.length; a++){
 	    x[a] = r.nextInt(100);
 	}
+	/*
 	for(int i = 0; i < x.length; i++){
 	    System.out.print(x[i] + " ");
 	}
-	System.out.print("\n");
+	*/
+	//System.out.print("\n");
 	if(ary.length == 1){
-	    quicksort(x);
-	    System.out.println("sorted");
+	        timer.start();
+		quicksort(x);
+	    
+		//System.out.println("sorted");
+		/*
 	    for(int i = 0; i < x.length; i++){
 		System.out.print(x[i] + " ");
 	    }
 	    System.out.print("\n");
+		*/
+		System.out.println("runTime: " + timer.stop());
+		System.out.println(check(x));
 	}
 	else{
 	    System.out.println("quickselect");
 	    System.out.println(quickselect(x,Integer.parseInt(ary[1])));
 	}
+	//}catch(Throwable e){}
+    }
+}
+class Timer{
+    public Timer(){
+    }
+    private long time;
+    public void start(){
+	time = System.currentTimeMillis();
+    }
+    public long stop(){
+	return (System.currentTimeMillis() - time) / 1000;
     }
 }
