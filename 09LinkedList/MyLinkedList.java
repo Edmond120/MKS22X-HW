@@ -22,6 +22,17 @@ public class MyLinkedList{
     Lnode current;
     int currentPlace = -1;
     int size = 0;
+    public int size(){
+	return size;
+    }
+    public String toString(){
+	int[] ary = toArray();
+	String result = "[ ";
+	for(int i = 0; i < ary.length;i++){
+	    result += ary[i] + ", ";
+	}
+	return result + "]";
+    }
     public int[] toArray(){
 	int[]ary = new int[size];
 	for(int i = 0; i < size;i++){
@@ -37,7 +48,35 @@ public class MyLinkedList{
 	current = start;
     }
     public MyLinkedList(int[]array){
-	
+	start = new Lnode();
+	start.after = new Lnode();
+	start.after.before = start;
+	end = start;
+	current = start;
+	for(int i = 0;i < array.length;i++){
+	    add(array[i]);
+	}
+    }
+    public int remove(int index){
+	Lnode x = select(index);
+	x.before.after = x.after;
+	x.after.before = x.before;
+	size--;
+	return x.num;
+    }
+    public int set(int index,int newValue){
+	Lnode x = select(index);
+	int a = x.num;
+	x.num = newValue;
+	return a;
+    }
+    public int indexOf(int value){
+	for(int i = 0;i < size; i++){
+	    if(get(i) == value){
+		return i;
+	    }
+	}
+	return -1;
     }
     public int get(int index){
 	return select(index).num;
@@ -53,8 +92,8 @@ public class MyLinkedList{
     public void addStart(int value){
 	addH(value,start);
     }
-    public void add(int value,int index){
-	addH(value,select(index));
+    public void add(int index,int value){
+	addH(value,select(index).before);
 	if(index == size - 1){
 	    end = end.after;
 	}
