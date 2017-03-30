@@ -23,5 +23,6 @@ public class driver{
 	print(x);
 	System.out.println(x.remove(3));
 	print(x);
+	x.add(x.size(),1);
     }
 }

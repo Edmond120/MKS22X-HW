@@ -112,6 +112,9 @@ public class MyLinkedList{
 	
     }
     private Lnode select(int index){
+	if(index < 0 || index >= size()){
+	    throw new IndexOutOfBoundsException();
+	}
 	int a;
 	if(currentPlace > index){
 	    a = currentPlace - index;
