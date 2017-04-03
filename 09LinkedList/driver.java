@@ -3,7 +3,14 @@ public class driver{
 	System.out.println(Timer.toString(x.toArray()));
     }
     public static void main(String[]args){
-	MyLinkedList x = new MyLinkedList();
+	//MyLinkedList x = new MyLinkedList();
+	int[]ary = new int[10];
+	for(int i = 0; i < 10; i++){
+	    ary[i] = i;
+	}
+	MyLinkedList x = new MyLinkedList(ary);
+	System.out.println(x.toString());
+	/*
 	for(int a = 0; a < 10; a++){
 	    if(a == 5){
 		x.add(1000);
@@ -24,5 +31,6 @@ public class driver{
 	System.out.println(x.remove(3));
 	print(x);
 	x.add(x.size(),1);
+	*/
     }
 }
