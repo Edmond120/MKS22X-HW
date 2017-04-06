@@ -1,3 +1,4 @@
+import java.util.*;
 class Timer{
     public Timer(){
     }
@@ -16,12 +17,35 @@ class Timer{
 	return result;
     }
 }
-public class MyLinkedList{
+public class MyLinkedList implements Iterable<Integer>{
     Lnode start;
     Lnode end;
     Lnode current;
     int currentPlace = -1;
     int size = 0;
+    public myLinkedListIterator iterator(){
+    	return new myLinkedListIterator();
+    }
+    class myLinkedListIterator implements Iterator<Integer>{
+	public myLinkedListIterator(){
+	    if(size > 0){
+		currentPlace = -1;
+		current = start;
+	    }
+	}
+	public boolean hasNext(){
+	    return currentPlace < size - 1;
+	}
+	public Integer next(){
+	    return select(currentPlace + 1).num;
+	}
+	public void remove(){
+	    Lnode x = select(currentPlace);
+	    x.before.after = x.after;
+	    x.after.before = x.before;
+	    size--;
+	}
+    }
     public int size(){
 	return size;
     }
@@ -56,6 +80,8 @@ public class MyLinkedList{
 	for(int i = 0;i < array.length;i++){
 	    add(array[i]);
 	}
+	//System.out.println(currentPlace);
+	//System.out.println(current == start);
     }
     public int remove(int index){
 	Lnode x = select(index);
