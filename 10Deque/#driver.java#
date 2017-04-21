@@ -19,10 +19,5 @@ class driver{
 	System.out.println(x.getFirst());
 	x.debug();
 	System.out.println(x.getFirst());
-	/*
-	for(int i = 0; i < 5; i++){
-	    System.out.println(x.removeFirst());
-	}
-	*/
     }
 }

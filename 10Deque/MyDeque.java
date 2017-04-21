@@ -61,10 +61,22 @@ public class MyDeque{
 	    return ary[ary.length - 1];
 	}
     }
+    public void debug(){
+	System.out.println("start: " + start);
+	System.out.println("end: " + end);
+    }
     public String removeFirst(){
-	
+	if(start == ary.length - 1){
+	    start = 0;
+	    return ary[ary.length - 1];
+	}
+	return ary[start++] ;
     }
     public String removeLast(){
-	
+	if(end == 0){
+	    end = ary.length - 1;
+	    return ary[0];
+	}
+	return ary[end--];
     }
 }
