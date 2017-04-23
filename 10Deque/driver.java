@@ -4,25 +4,31 @@ class driver{
 	x.debug();
 	System.out.print('\n');
 	x.addFirst("1");
-	System.out.println(x.getFirst());
+	System.out.println(x.getLast());
 	x.debug();
-	x.addFirst("2");
-	System.out.println(x.getFirst());
+	x.addLast("2");
+	System.out.println(x.getLast());
 	x.debug();
-	x.addFirst("3");
-	System.out.println(x.getFirst());
+	x.addLast("3");
+	System.out.println(x.getLast());
 	x.debug();
-	x.addFirst("4");
-	System.out.println(x.getFirst());
+	x.addLast("4");
+	System.out.println(x.getLast());
 	x.debug();
-	x.addFirst("5");
-	System.out.println(x.getFirst());
+	x.addLast("5");
+	System.out.println(x.getLast());
 	x.debug();
-	System.out.println(x.getFirst());
-	/*
-	for(int i = 0; i < 5; i++){
-	    System.out.println(x.removeFirst());
+	x.addLast("6");
+	x.addLast("7");
+	x.addLast("8");
+	x.debug();
+	//System.out.println(x.getLast());
+
+	System.out.println("size:::: " + x.size());
+	int len = x.size();
+	for(int i = 0; i < len; i++){
+	    System.out.print(x.removeLast());
 	}
-	*/
+	
     }
 }
