@@ -2,13 +2,6 @@ public class MyDeque{
     private String[]ary;
     private int start;
     private int end;
-    private int _size = 0;
-    public int size(){
-	return _size;
-    }
-    public int getSize(){
-	return size();
-    }
     public MyDeque(int len){
 	if(len < 2){
 	    len = 2;
@@ -33,40 +26,24 @@ public class MyDeque{
 	}
     }
     private boolean checkForResize(){
-	return start == end;
+	return ary[start] != null && ary[end] != null;
     }
     private void resize(int len){
-	String[]newAry = new String[len];
-	int index = 0;
-	for(int i = start + 1;i != start;i++){
-	    if(i >= ary.length){
-		i = 0;
-	    }
-	    System.out.print(ary[i] + " ");
-	    newAry[index++] = ary[i];
-	}
-	start = newAry.length - 1;
-	ary = newAry;
+	
     }
     public void addFirst(String input){
 	ary[start--] = input;
 	updateStart();
 	if(checkForResize()){
-	    resize((int)Math.floor(ary.length * resizeRatio));
+	    resize((ary.length * 3 / 2) + 1);
 	}
-	_size++;
     }
     public void addLast(String input){
 	ary[end++] = input;
 	updateEnd();
 	if(checkForResize()){
-	    resize((int)Math.floor(ary.length * resizeRatio));
+	    resize((ary.length * 3 / 2) + 1);
 	}
-	_size++;
-    }
-    private double resizeRatio = 2;
-    public void setResizeRatio(double x){
-	resizeRatio = x;
     }
     public String getFirst(){
 	if(start + 1 != ary.length){
@@ -87,26 +64,19 @@ public class MyDeque{
     public void debug(){
 	System.out.println("start: " + start);
 	System.out.println("end: " + end);
-	System.out.println("size: " + size());
-	for(int i = 0; i < ary.length;i++){
-	    System.out.print(ary[i] + " ");
-	}
-	System.out.print('\n');
     }
     public String removeFirst(){
-	_size--;
-	if(start + 1 == ary.length){
+	if(start == ary.length - 1){
 	    start = 0;
-	    return ary[0];
+	    return ary[ary.length - 1];
 	}
-	return ary[start++ + 1] ;
+	return ary[start++] ;
     }
     public String removeLast(){
-	_size--;
 	if(end == 0){
 	    end = ary.length - 1;
-	    return ary[1];
+	    return ary[0];
 	}
-	return ary[end-- - 1];
+	return ary[end--];
     }
 }
