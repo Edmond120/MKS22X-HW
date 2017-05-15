@@ -5,6 +5,7 @@ public class RunningMedian{
     private boolean Eadd(int num){
 	if(num >= max.peek() && num <= min.peek()){
 		max.add(num);
+		return true;
 	    }
 	    else if(num < max.peek()){
 		max.add(num);
