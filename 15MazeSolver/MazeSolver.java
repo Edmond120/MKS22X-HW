@@ -1,3 +1,4 @@
+import java.lang.IllegalArgumentException;
 public class MazeSolver{
     Maze maze;
     boolean animate;
@@ -16,6 +17,38 @@ public class MazeSolver{
 	solve(BFS);
     }
     public void solve(int style){
+	if(style == DFS){
+
+	}
+	else if(style == BFS){
+
+	}
+	else if(style == BestFirst){
+
+	}
+	else if(style == AStar){
+	    AStar();
+	}
+	else{
+	    throw new IllegalArgumentException();
+	}
+    }
+    private int abs(int x){
+	if(x < 0){
+	    x *= -1;
+	}
+	return x;
+    }
+    private int distance(Location a, Location b){
+	return abs(a.r - b.r) + abs(a.c - b.c);
+    }
+    private void AStar(){
+	Frontier frontier = new FrontierPriorityQueue();
+	frontier.add(maze.getStart());
+	Location next = maze.getStart();
+	while(distance(maze.getEnd(),next) != 0){
+	    
+	}
     }
     public String toString(){
 	return maze.toString();

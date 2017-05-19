@@ -4,7 +4,7 @@ class Location{
     public Location(int r, int c, Location previous, int distTraveled, int distToGoal, boolean aStar){
 	this.r = r;
 	this.c = c;
-	this.distToStart = distToStart;
+	this.distTraveled = distTraveled;
 	this.distToGoal = distToGoal;
 	this.aStar = aStar;
     }
@@ -18,15 +18,27 @@ class Location{
     }
 }
 interface Frontier{
-    void add(Location x);
-    Location next();
+    public void add(Location x);
+    public Location next();//also removes from Frontier
 }
 class FrontierPriorityQueue implements Frontier{
     MyHeapG<Location> heap = new MyHeapG<Location>();
+    public void add(Location x){
+	heap.add(x);
+    }
+    public Location next(){
+        return heap.remove();
+    }
 }
 class QueueFrontier implements Frontier{
-
+    public void add(Location x){}
+    public Location next(){
+	return null;
+    }
 }
 class StackFrontier implements Frontier{
-
+    public void add(Location x){}
+    public Location next(){
+	return null;
+    }
 }
