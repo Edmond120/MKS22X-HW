@@ -1,16 +1,22 @@
 class Location{
     int r,c,distTraveled,distToGoal;
     boolean aStar;
+    boolean queue = false;
+    Location previous;
     public Location(int r, int c, Location previous, int distTraveled, int distToGoal, boolean aStar){
 	this.r = r;
 	this.c = c;
 	this.distTraveled = distTraveled;
 	this.distToGoal = distToGoal;
+	this.previous = previous;
 	this.aStar = aStar;
     }
     public int compareTo(Location other){
 	if(aStar){
 	    return (other.distTraveled + other.distToGoal) - (distTraveled + distToGoal);
+	}
+	else if(queue){
+	    return other.distTraveled - distTraveled;
 	}
 	else{
 	    return other.distToGoal - distToGoal;
@@ -27,13 +33,27 @@ class FrontierPriorityQueue implements Frontier{
 	heap.add(x);
     }
     public Location next(){
-        return heap.remove();
+	if(heap.getSize() == 0){
+	    return null;
+	}
+	else{
+	    return heap.remove();
+	}
     }
 }
 class QueueFrontier implements Frontier{
-    public void add(Location x){}
+    MyHeapG<Location> heap = new MyHeapG<Location>();
+    public void add(Location x){
+	x.queue = true;
+	heap.add(x);
+    }
     public Location next(){
-	return null;
+	if(heap.getSize() == 0){
+	    return null;
+	}
+	else{
+	    return heap.remove();
+	}
     }
 }
 class StackFrontier implements Frontier{
