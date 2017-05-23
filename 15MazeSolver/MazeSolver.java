@@ -18,7 +18,7 @@ public class MazeSolver{
     }
     public void solve(int style){
 	if(style == DFS){
-
+	    DFS();
 	}
 	else if(style == BFS){
 	    BFS();
@@ -81,6 +81,9 @@ public class MazeSolver{
     }
     private void BFS(){
 	go(false,new QueueFrontier());
+    }
+    private void DFS(){
+	go(false,new StackFrontier());
     }
     private void go(boolean AStar,Frontier frontier){
 	maze.getStart().aStar = AStar;

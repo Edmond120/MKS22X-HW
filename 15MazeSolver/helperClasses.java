@@ -1,3 +1,4 @@
+import java.util.*;
 class Location{
     int r,c,distTraveled,distToGoal;
     boolean aStar;
@@ -57,8 +58,16 @@ class QueueFrontier implements Frontier{
     }
 }
 class StackFrontier implements Frontier{
-    public void add(Location x){}
+    LinkedList<Location> stack = new LinkedList<Location>();
+    public void add(Location x){
+	stack.add(x);
+    }
     public Location next(){
-	return null;
+	if(stack.size() == 0){
+	    return null;
+	}
+	else{
+	    return stack.removeLast();
+	}
     }
 }
